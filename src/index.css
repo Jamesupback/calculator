@@ -2,6 +2,7 @@ body{
   background: linear-gradient(#1B1F32,#2D446C);
   background-repeat: no-repeat;
   background-attachment: fixed;
+  background-origin: border-box;
 }
 h1{
   text-align: center;
