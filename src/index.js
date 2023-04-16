@@ -2,25 +2,29 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { useState } from 'react';
-import {evaluate, isNumber} from 'mathjs'
+import {evaluate} from 'mathjs'
 function App(){
 const[oldstate,newstate]=useState("");
 const[olddisp,newdisp]=useState("");
 const[hasclicked,sethasclicked]=useState(false)
-
+let reset=false;
 function clear(){
-  newstate("0");
-  newdisp("");
+ const disp=document.getElementById("display");
+ disp.innerText="0"
+ newdisp("");
 }
 function click(event){
+  
   const display=document.getElementById("display");
   if(hasclicked && /\d/.test(event.target.innerText))
   display.innerText="";
   sethasclicked(false)
   const data=display.innerText+event.target.textContent;
-  const filterzeros=data.replace(/(?<!\.)0+(?=[1-9])/g,"")
+  //const filterzero=data.replace(/^0+(?!(\d|\.|\+|\-|\/|\*))/,'0')
+  const filterzeros=data.replace(/(?<!(\.\d*|\d))0{1,}(?=\d)/,"")
   const filtermultiples=filterzeros.replace(/(?<=\.\d*)\./g,"")
   const filter=filtermultiples.replace(/[\+,\-,\/,\*]+(?=[\+,\*,\/](\-)?\d)/g,"")
+  console.log(filter)
   newstate(filter)
   newdisp(filter);
 }
